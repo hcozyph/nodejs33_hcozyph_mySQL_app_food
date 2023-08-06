@@ -1,1 +1,77 @@
-check 
+USE app_food;
+
+CREATE TABLE food_type (
+	type_id INT PRIMARY KEY AUTO_INCREMENT,
+	type_name VARCHAR(200)
+);
+
+CREATE TABLE food (
+	food_id INT PRIMARY KEY AUTO_INCREMENT,
+	food_name VARCHAR(200),
+	image VARCHAR(200),
+	price FLOAT,
+	description VARCHAR(500),
+	
+	type_id INT,
+	
+	FOREIGN KEY (type_id) REFERENCES food_type(type_id)
+	
+)
+
+CREATE TABLE sub_food (
+	sub_id INT PRIMARY KEY AUTO_INCREMENT,
+	sub_name VARCHAR(200),
+	sub_price FLOAT,
+	
+	food_id INT,
+	
+	FOREIGN KEY (food_id) REFERENCES food(food_id)
+)
+
+CREATE TABLE user_table (
+	user_id INT PRIMARY KEY AUTO_INCREMENT,
+	full_name VARCHAR(200),
+	email VARCHAR(200),
+	password VARCHAR(200)
+)
+
+CREATE TABLE order_table (
+	user_id INT,
+	food_id INT,
+	
+	amount INT,
+	code VARCHAR(200),
+	arr_sub_id VARCHAR(200),
+	
+	FOREIGN KEY (user_id) REFERENCES user_table(user_id),
+	FOREIGN KEY (food_id) REFERENCES food(food_id)
+)
+
+CREATE TABLE restaurant (
+	res_id INT PRIMARY KEY AUTO_INCREMENT,
+	res_name VARCHAR(200),
+	image VARCHAR(200),
+	description VARCHAR(500)
+
+)
+
+CREATE TABLE like_res (
+	date_like DATETIME,
+	
+	user_id INT,
+	res_id INT,
+	
+	FOREIGN KEY (user_id) REFERENCES user_table(user_id),
+	FOREIGN KEY (res_id) REFERENCES restaurant(res_id)
+)
+
+CREATE TABLE rate_res (
+	amount INT,
+	date_rate DATETIME,
+
+	user_id INT,
+	res_id INT,
+	
+	FOREIGN KEY (user_id) REFERENCES user_table(user_id),
+	FOREIGN KEY (res_id) REFERENCES restaurant(res_id)
+)
